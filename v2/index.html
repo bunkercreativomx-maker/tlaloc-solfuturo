@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SolFuturo — Paneles Solares en Cd. Juárez | Cotiza con Tlaloc</title>
+<meta name="description" content="Paneles solares en Ciudad Juárez. Reduce tu recibo de luz hasta 95% con un sistema diseñado a tu medida. Cotiza directo con quien instala. +500 instalaciones, 10+ años." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --green:#059669;          /* primary nature green */
+    --green-light:#10B981;    /* secondary */
+    --green-bg:#ECFDF5;       /* page background */
+    --green-deep:#064E3B;     /* foreground */
+    --gold:#D9A441;           /* solar accent */
+    --ink:#0F2A22;
+    --muted:#4B6B60;
+    --radius:20px;
+    --radius-sm:14px;
+    --shadow:0 18px 40px -18px rgba(6,78,59,.35);
+    --shadow-sm:0 10px 24px -14px rgba(6,78,59,.3);
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Raleway',system-ui,sans-serif;
+    background:var(--green-bg);
+    color:var(--green-deep);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Lora',serif;line-height:1.15;font-weight:600}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--green);color:#fff;font-weight:600;
+    padding:15px 30px;border-radius:50px;font-size:16px;
+    box-shadow:var(--shadow-sm);transition:transform .15s ease,background .2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);background:#047a56}
+  .btn.gold{background:var(--gold);color:#3a2a07}
+  .btn.gold:hover{background:#c8942f}
+  .btn.ghost{background:transparent;color:var(--green);border:2px solid var(--green);box-shadow:none}
+  .btn.ghost:hover{background:var(--green);color:#fff}
+  section{padding:84px 0}
+
+  /* NAV */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(236,253,245,.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(6,78,59,.08);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .logo{display:flex;align-items:center;gap:12px;font-family:'Lora',serif;font-weight:700;font-size:22px;color:var(--green-deep)}
+  .logo .mark{
+    width:38px;height:38px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,var(--gold),#b9842c);
+    display:grid;place-items:center;color:#fff;font-size:20px;box-shadow:var(--shadow-sm)
+  }
+  .logo small{display:block;font-family:'Raleway';font-weight:500;font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{font-weight:500;font-size:15px;color:var(--green-deep);opacity:.85}
+  .nav-links a:hover{opacity:1;color:var(--green)}
+  .menu-btn{display:none;background:none;border:0;font-size:26px;color:var(--green-deep);cursor:pointer}
+
+  /* HERO */
+  .hero{
+    background:
+      radial-gradient(1100px 500px at 85% -10%,rgba(16,185,129,.22),transparent),
+      radial-gradient(700px 400px at -5% 110%,rgba(217,164,65,.16),transparent),
+      var(--green-bg);
+    padding:72px 0 96px;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(6,78,59,.12);
+    padding:7px 16px;border-radius:50px;font-size:13px;font-weight:600;color:var(--green);margin-bottom:22px}
+  .hero h1{font-size:clamp(34px,5vw,56px);margin-bottom:18px}
+  .hero h1 .hl{color:var(--green)}
+  .hero p.lead{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:32px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .stats{display:flex;gap:36px;margin-top:46px;flex-wrap:wrap}
+  .stats .s strong{font-family:'Lora';font-size:38px;color:var(--green-deep);display:block;line-height:1}
+  .stats .s span{font-size:14px;color:var(--muted);font-weight:500}
+  .hero-card{
+    background:#fff;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);
+    position:relative;overflow:hidden
+  }
+  .hero-card img{border-radius:14px;width:100%;height:340px;object-fit:cover}
+  .hero-card .tag{
+    position:absolute;top:30px;left:30px;background:var(--gold);color:#3a2a07;
+    font-weight:700;font-size:13px;padding:8px 14px;border-radius:50px;box-shadow:var(--shadow-sm)
+  }
+
+  /* SECTION HEAD */
+  .head{text-align:center;max-width:680px;margin:0 auto 54px}
+  .head .eyebrow{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--green);margin-bottom:12px}
+  .head h2{font-size:clamp(28px,4vw,40px);margin-bottom:14px}
+  .head p{color:var(--muted);font-size:17px}
+
+  /* PAIN (CFE) */
+  .pain{background:#fff}
+  .pain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .pain-card{border:1px solid rgba(6,78,59,.1);border-radius:var(--radius-sm);padding:26px;background:var(--green-bg);transition:transform .15s ease}
+  .pain-card:hover{transform:translateY(-4px)}
+  .pain-card .ic{width:46px;height:46px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:22px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+  .pain-card h3{font-size:19px;margin-bottom:8px}
+  .pain-card p{font-size:14px;color:var(--muted)}
+
+  /* SERVICES */
+  .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+  .svc{
+    background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);
+    display:grid;grid-template-columns:120px 1fr;transition:transform .15s ease,box-shadow .2s ease
+  }
+  .svc:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+  .svc .ph{background:var(--green);display:grid;place-items:center;color:#fff;font-size:46px}
+  .svc .body{padding:26px}
+  .svc h3{font-size:21px;margin-bottom:8px}
+  .svc p{font-size:14px;color:var(--muted)}
+
+  /* BENEFITS */
+  .ben{background:#fff}
+  .ben-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .ben-card{border-radius:var(--radius-sm);padding:28px;background:var(--green-bg);border:1px solid rgba(6,78,59,.08)}
+  .ben-card .ic{font-size:30px;margin-bottom:12px}
+  .ben-card h3{font-size:19px;margin-bottom:8px}
+  .ben-card p{font-size:14px;color:var(--muted)}
+
+  /* PROCESS */
+  .proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:step}
+  .proc{position:relative;padding:30px 22px;border-radius:var(--radius-sm);background:#fff;box-shadow:var(--shadow-sm);text-align:center}
+  .proc .n{
+    width:48px;height:48px;border-radius:50%;background:var(--green);color:#fff;
+    display:grid;place-items:center;font-family:'Lora';font-weight:700;font-size:20px;margin:0 auto 16px
+  }
+  .proc h3{font-size:18px;margin-bottom:8px}
+  .proc p{font-size:13.5px;color:var(--muted)}
+
+  /* PROJECTS */
+  .proj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .proj{background:#fff;border-radius:var(--radius-sm);overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .15s ease}
+  .proj:hover{transform:translateY(-4px)}
+  .proj img{height:150px;object-fit:cover;width:100%}
+  .proj .meta{padding:16px}
+  .proj .meta b{font-family:'Lora';font-size:17px}
+  .proj .meta .save{color:var(--green);font-weight:700;font-size:14px;display:block;margin-top:4px}
+
+  /* QUOTE */
+  .quote-sec{background:linear-gradient(135deg,var(--green-deep),#0b3b2e)}
+  .quote-sec .head h2,.quote-sec .head p{color:#fff}
+  .quote-sec .head p{opacity:.85}
+  .quote-card{
+    background:#fff;border-radius:var(--radius);max-width:680px;margin:0 auto;padding:34px;box-shadow:var(--shadow)
+  }
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-weight:600;font-size:14px;margin-bottom:6px;color:var(--ink)}
+  .field input,.field select,.field textarea{
+    width:100%;padding:13px 15px;border:1.5px solid #d7e6df;border-radius:12px;font-family:inherit;font-size:15px;color:var(--ink);background:#fbfdfc
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--green)}
+  .quote-card .btn{width:100%;justify-content:center;margin-top:8px}
+  .ok-msg{display:none;text-align:center;padding:30px 10px}
+  .ok-msg .big{font-size:46px;margin-bottom:10px}
+  .ok-msg h3{font-size:24px;margin-bottom:8px;color:var(--green)}
+
+  /* FAQ */
+  .faq{max-width:760px;margin:0 auto}
+  .faq-item{border:1px solid rgba(6,78,59,.12);border-radius:var(--radius-sm);margin-bottom:14px;background:#fff;overflow:hidden}
+  .faq-q{width:100%;text-align:left;background:none;border:0;padding:20px 22px;font-family:'Raleway';font-weight:600;font-size:16px;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px}
+  .faq-q .plus{font-size:22px;color:var(--green);transition:transform .2s ease}
+  .faq-item.open .plus{transform:rotate(45deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .faq-a p{padding:0 22px 20px;color:var(--muted);font-size:15px}
+
+  /* QUOTE BLOCK (Tlaloc) */
+  .tlaloc{background:var(--green-bg)}
+  .tlaloc-box{max-width:760px;margin:0 auto;text-align:center;background:#fff;border-radius:var(--radius);padding:48px 34px;box-shadow:var(--shadow)}
+  .tlaloc-box .q{font-family:'Lora';font-size:clamp(22px,3vw,30px);font-style:italic;color:var(--green-deep);margin-bottom:18px}
+  .tlaloc-box .who{font-weight:600;color:var(--green)}
+
+  /* FOOTER */
+  footer{background:var(--green-deep);color:#cfe9df;padding:54px 0 28px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px;margin-bottom:34px}
+  footer h4{color:#fff;font-size:17px;margin-bottom:14px}
+  footer a{color:#cfe9df;display:block;margin-bottom:8px;font-size:14px}
+  footer a:hover{color:#fff}
+  .foot-brand .logo{color:#fff;margin-bottom:12px}
+  .foot-brand p{font-size:14px;opacity:.85;max-width:320px}
+  .socials{display:flex;gap:12px;margin-top:16px}
+  .socials a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:18px;margin:0}
+  .socials a:hover{background:var(--green)}
+  .copyr{border-top:1px solid rgba(255,255,255,.12);padding-top:20px;font-size:13px;opacity:.7;text-align:center}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:30px}
+    .pain-grid,.proj-grid{grid-template-columns:repeat(2,1fr)}
+    .ben-grid{grid-template-columns:repeat(2,1fr)}
+    .proc-grid{grid-template-columns:repeat(2,1fr)}
+    .svc-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:620px){
+    .nav-links{display:none}
+    .menu-btn{display:block}
+    .pain-grid,.ben-grid,.proc-grid,.proj-grid,.form-row{grid-template-columns:1fr}
+    .svc{grid-template-columns:1fr}
+    .svc .ph{height:90px}
+    section{padding:60px 0}
+  }
+  .mobile-menu{display:none;flex-direction:column;gap:6px;padding:14px 22px 22px;background:#fff;border-bottom:1px solid rgba(6,78,59,.1)}
+  .mobile-menu a{padding:10px 0;font-weight:500;border-bottom:1px solid #eef5f1}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="logo">
+      <span class="mark">☀</span>
+      <span>SolFuturo<small>Hechos en Cd. Juárez · 2015</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#realidad">Realidad CFE</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contacto" class="btn">Cotizar gratis</a>
+    </nav>
+    <button class="menu-btn" onclick="document.getElementById('mm').style.display=document.getElementById('mm').style.display==='flex'?'none':'flex'">☰</button>
+  </div>
+  <div class="mobile-menu" id="mm">
+    <a href="#realidad">Realidad CFE</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#proceso">Proceso</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contacto">Cotizar gratis</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill">🌞 +8.5 kWh/m² de sol en Juárez</span>
+      <h1>Paneles solares con <span class="hl">Tlaloc</span> — cotiza directo con quien instala</h1>
+      <p class="lead">Soy asesor de SolFuturo en Ciudad Juárez. Te ayudo a reducir tu recibo de luz hasta un 95% con un sistema solar diseñado a tu medida.</p>
+      <div class="hero-cta">
+        <a href="#contacto" class="btn">Cotizar con mi recibo</a>
+        <a href="tel:+526566953960" class="btn gold">📞 656 695 3960</a>
+      </div>
+      <div class="stats">
+        <div class="s"><strong>+500</strong><span>Instalaciones activas</span></div>
+        <div class="s"><strong>95%</strong><span>Ahorro promedio</span></div>
+        <div class="s"><strong>10+</strong><span>Años en Juárez</span></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <span class="tag">💡 Ahorro desde el 1er recibo</span>
+      <img src="https://solfuturo.com.mx/home/about-paneles.png" alt="Paneles solares en azotea de Ciudad Juárez" />
+    </div>
+  </div>
+</section>
+
+<!-- REALIDAD CFE -->
+<section class="pain" id="realidad">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Realidad en Cd. Juárez</div>
+      <h2>¿Tu recibo de luz es cada vez más alto?</h2>
+      <p>Cada año pagas más por la electricidad. La buena noticia es que el sol no cobra.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card"><div class="ic">📈</div><h3>CFE sube cada año</h3><p>El recibo que pagaste en 2020 hoy cuesta casi el doble. Los aumentos anuales no se detienen.</p></div>
+      <div class="pain-card"><div class="ic">🔥</div><h3>Verano dispara el consumo</h3><p>El aire acondicionado de junio a septiembre te cuesta lo del resto del año. En Juárez llegamos a 45°C.</p></div>
+      <div class="pain-card"><div class="ic">⚠️</div><h3>Tarifa DAC = recibo ×3</h3><p>Al pasar de cierto consumo pierdes todo subsidio y el recibo se triplica. Duele cada bimestre.</p></div>
+      <div class="pain-card"><div class="ic">☀️</div><h3>Con solar reduces 95%</h3><p>+8.5 kWh/m² de radiación solar en Juárez — el sol no falta, sólo quien lo aprovecha.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="#contacto" class="btn">Quiero ahorrar ya</a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Lo que hacemos</div>
+      <h2>Servicios principales</h2>
+      <p>Diseñamos, instalamos y mantenemos sistemas solares a la medida de tu hogar o negocio en Ciudad Juárez.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc"><div class="ph">🏠</div><div class="body"><h3>Residencial</h3><p>Paneles para casas. Reduce tu recibo hasta 95%. Financiamiento sin intereses y garantía de por vida en la instalación.</p></div></div>
+      <div class="svc"><div class="ph">🏢</div><div class="body"><h3>Comercial</h3><p>Paneles para negocios. Optimiza costos operativos y accede a deducciones fiscales del 100%. ROI garantizado.</p></div></div>
+      <div class="svc"><div class="ph">🏭</div><div class="body"><h3>Industrial</h3><p>Soluciones industriales. Sistemas de gran escala para maquiladoras y plantas. Desde 100 kW hasta 2 MW.</p></div></div>
+      <div class="svc"><div class="ph">🔧</div><div class="body"><h3>Mantenimiento</h3><p>Revisión eléctrica, limpieza, cableado y reajuste. Mantén tu sistema generando al máximo.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ SOLAR -->
+<section class="ben" id="porque">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Por qué solar</div>
+      <h2>Beneficios de instalar paneles solares</h2>
+      <p>No solo reduce tu factura — es una inversión que aumenta el valor de tu propiedad y cuida el planeta.</p>
+    </div>
+    <div class="ben-grid">
+      <div class="ben-card"><div class="ic">💸</div><h3>Ahorro en electricidad</h3><p>Genera tu propia energía y paga hasta 95% menos en tu recibo CFE desde el primer mes.</p></div>
+      <div class="ben-card"><div class="ic">🌿</div><h3>Energía limpia</h3><p>Reduce tu huella de carbono. Un sistema residencial evita toneladas de CO₂ al año.</p></div>
+      <div class="ben-card"><div class="ic">🏡</div><h3>Más valor a tu propiedad</h3><p>Las propiedades con paneles se venden hasta 20% más rápido y a mejor precio.</p></div>
+      <div class="ben-card"><div class="ic">📑</div><h3>Beneficios fiscales</h3><p>Las empresas pueden deducir el 100% de la inversión en el primer año fiscal.</p></div>
+      <div class="ben-card"><div class="ic">🤝</div><h3>Financiamiento accesible</h3><p>Con financiamiento sin intereses tu cuota suele ser menor a lo que pagas de luz hoy.</p></div>
+      <div class="ben-card"><div class="ic">🛡️</div><h3>Garantía y respaldo</h3><p>Paneles Tier 1 con garantía de hasta 25 años. Monitoreo 24/7 y soporte local.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">El proceso</div>
+      <h2>Cómo instalamos tus paneles solares</h2>
+      <p>Cuatro pasos claros, sin sorpresas. Te acompañamos desde la primera visita hasta que CFE valida tu medidor bidireccional.</p>
+    </div>
+    <div class="proc-grid">
+      <div class="proc"><div class="n">1</div><h3>Analizamos tu consumo</h3><p>Revisamos tu recibo de CFE para entender tu consumo real de energía.</p></div>
+      <div class="proc"><div class="n">2</div><h3>Diseñamos el sistema</h3><p>Creamos un plano optimizado para la arquitectura de tu propiedad.</p></div>
+      <div class="proc"><div class="n">3</div><h3>Instalamos los paneles</h3><p>Instalación profesional certificada para resistir los vientos de Juárez.</p></div>
+      <div class="proc"><div class="n">4</div><h3>Empiezas a ahorrar</h3><p>Activamos tu sistema y gestionamos el medidor bidireccional con CFE.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:40px"><a href="#contacto" class="btn">Empezar ahora</a></div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Proyectos reales</div>
+      <h2>Instalaciones en Cd. Juárez</h2>
+      <p>Cada instalación es única. Proyectos reales completados en distintas zonas de la ciudad.</p>
+    </div>
+    <div class="proj-grid">
+      <div class="proj"><img src="https://solfuturo.com.mx/instalaciones/p01.png" alt="Col. Campestre" onerror="this.style.background='#d7e6df'"/><div class="meta"><b>Col. Campestre</b><span class="save">Ahorro: $1,800/mes</span></div></div>
+      <div class="proj"><img src="https://solfuturo.com.mx/instalaciones/p02.png" alt="Centro Histórico" onerror="this.style.background='#d7e6df'"/><div class="meta"><b>Centro Histórico</b><span class="save">Ahorro: $4,200/mes</span></div></div>
+      <div class="proj"><img src="https://solfuturo.com.mx/instalaciones/p03.png" alt="Fracc. Satélite" onerror="this.style.background='#d7e6df'"/><div class="meta"><b>Fracc. Satélite</b><span class="save">Ahorro: $2,100/mes</span></div></div>
+      <div class="proj"><img src="https://solfuturo.com.mx/instalaciones/p04.png" alt="Parque Industrial" onerror="this.style.background='#d7e6df'"/><div class="meta"><b>Parque Industrial</b><span class="save">Ahorro: $18,000/mes</span></div></div>
+      <div class="proj"><img src="https://solfuturo.com.mx/instalaciones/p05.png" alt="Col. Misiones" onerror="this.style.background='#d7e6df'"/><div class="meta"><b>Col. Misiones</b><span class="save">Ahorro: $1,500/mes</span></div></div>
+      <div class="proj"><img src="https://solfuturo.com.mx/instalaciones/p06.png" alt="Zona Dorada" onerror="this.style.background='#d7e6df'"/><div class="meta"><b>Zona Dorada</b><span class="save">Ahorro: $6,500/mes</span></div></div>
+      <div class="proj"><img src="https://solfuturo.com.mx/instalaciones/p07.png" alt="Fracc. Praderas" onerror="this.style.background='#d7e6df'"/><div class="meta"><b>Fracc. Praderas</b><span class="save">Ahorro: $2,400/mes</span></div></div>
+      <div class="proj"><img src="https://solfuturo.com.mx/instalaciones/p08.png" alt="Restaurante" onerror="this.style.background='#d7e6df'"/><div class="meta"><b>Restaurante</b><span class="save">Ahorro: $5,300/mes</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COTIZADOR -->
+<section class="quote-sec" id="contacto">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" style="color:var(--gold)">Cotización gratuita</div>
+      <h2>Envíame tu recibo de luz</h2>
+      <p>Compárteme tu recibo de CFE y en menos de 24 horas recibirás una cotización personalizada sin compromiso.</p>
+    </div>
+    <div class="quote-card">
+      <form id="quoteForm" onsubmit="return sendQuote(event)">
+        <div class="form-row">
+          <div class="field"><label>Nombre completo</label><input type="text" name="nombre" required placeholder="Tu nombre" /></div>
+          <div class="field"><label>Correo electrónico</label><input type="email" name="email" required placeholder="tucorreo@ejemplo.com" /></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>WhatsApp</label><input type="tel" name="whatsapp" placeholder="656 123 4567" /></div>
+          <div class="field"><label>Monto de tu recibo de luz ($MXN)</label><input type="number" name="recibo" placeholder="Ej. 2500" /></div>
+        </div>
+        <div class="field"><label>Mensaje o monto de tu recibo (opcional)</label><textarea name="mensaje" rows="3" placeholder="Cuéntame sobre tu propiedad, consumo o dudas..."></textarea></div>
+        <button type="submit" class="btn">Solicitar cotización gratuita</button>
+      </form>
+      <div class="ok-msg" id="okMsg">
+        <div class="big">✅</div>
+        <h3>¡Cotización enviada!</h3>
+        <p>Te contacto en breve por WhatsApp o correo.</p>
+        <p style="margin-top:14px"><a href="https://wa.me/526566953960" class="btn gold">Escríbeme por WhatsApp</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TLALOC QUOTE -->
+<section class="tlaloc">
+  <div class="wrap">
+    <div class="tlaloc-box">
+      <p class="q">"Si nos llamas, te contesta alguien de Juárez. Trato de vecino, no de call center."</p>
+      <span class="who">— El equipo SolFuturo · con Tlaloc</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Resolvemos dudas</div>
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq" id="faqList">
+      <div class="faq-item"><button class="faq-q">¿Qué es SolFuturo?<span class="plus">+</span></button><div class="faq-a"><p>SolFuturo es una empresa especializada en instalación de sistemas solares fotovoltaicos en Ciudad Juárez. Ayudamos a hogares y empresas a reducir su consumo eléctrico mediante soluciones de energía limpia diseñadas a la medida.</p></div></div>
+      <div class="faq-item"><button class="faq-q">¿Cuánto puedo ahorrar con paneles solares?<span class="plus">+</span></button><div class="faq-a"><p>El ahorro depende del consumo eléctrico de cada inmueble. En muchos casos es posible reducir el recibo de luz de forma significativa. Un sistema solar bien dimensionado puede generar ahorros constantes a largo plazo de hasta el 95%.</p></div></div>
+      <div class="faq-item"><button class="faq-q">¿Cuántos paneles solares necesito?<span class="plus">+</span></button><div class="faq-a"><p>La cantidad de paneles depende de tu consumo de energía, el espacio disponible y tus objetivos de ahorro. En SolFuturo analizamos tu recibo de luz para diseñar un sistema solar adecuado a tus necesidades.</p></div></div>
+      <div class="faq-item"><button class="faq-q">¿Los paneles solares requieren mantenimiento?<span class="plus">+</span></button><div class="faq-a"><p>Los sistemas solares requieren mantenimiento mínimo, principalmente limpieza y revisiones periódicas. SolFuturo ofrece planes de mantenimiento preventivo para asegurar su correcto funcionamiento.</p></div></div>
+      <div class="faq-item"><button class="faq-q">¿Qué pasa si mi consumo de energía es alto?<span class="plus">+</span></button><div class="faq-a"><p>Si tienes un consumo elevado o estás en tarifa DAC, un sistema solar puede ayudarte a reducir significativamente el gasto en electricidad al generar parte de la energía que utilizas. Entre mayor sea tu consumo, mayor será tu ahorro.</p></div></div>
+      <div class="faq-item"><button class="faq-q">¿Cuánto tiempo dura un sistema solar?<span class="plus">+</span></button><div class="faq-a"><p>Los paneles solares están diseñados para tener una vida útil de más de 20 a 25 años, generando energía de forma constante con el mantenimiento adecuado. Los inversores suelen durar de 10 a 15 años.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo"><span class="mark">☀</span><span>SolFuturo</span></div>
+        <p>Empresa juarense de energía solar fundada por ingenieros locales. Diseñamos, instalamos y damos servicio en hogares, comercios e industria.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/Solfuturo" title="Facebook">f</a>
+          <a href="https://www.instagram.com/solfuturo_energiasolar/" title="Instagram">📷</a>
+          <a href="https://www.linkedin.com/company/solfuturo-paneles-solares" title="LinkedIn">in</a>
+          <a href="https://wa.me/526566953960" title="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="tel:+526566953960">📞 656 695 3960</a>
+        <a href="mailto:contacto@solfuturo.com.mx">✉️ contacto@solfuturo.com.mx</a>
+        <a href="https://wa.me/526566953960">💬 WhatsApp</a>
+        <span style="display:block;margin-top:8px;font-size:14px;opacity:.85">Av. #5313, Paseo 2, 2da burocrata,<br/>Insurgentes, 32340 Juárez, Chih.</span>
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <a href="#realidad">Realidad CFE</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#proceso">Proceso de instalación</a>
+        <a href="#proyectos">Proyectos reales</a>
+        <a href="#faq">Preguntas frecuentes</a>
+      </div>
+    </div>
+    <div class="copyr">© 2015–2026 SolFuturo · Hechos en Ciudad Juárez · Tlaloc Solar</div>
+  </div>
+</footer>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('#faqList .faq-q').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var item=btn.parentElement;
+      var ans=item.querySelector('.faq-a');
+      var isOpen=item.classList.contains('open');
+      document.querySelectorAll('#faqList .faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null;});
+      if(!isOpen){item.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
+    });
+  });
+
+  // Quote form -> WhatsApp prefilled + thank you
+  function sendQuote(e){
+    e.preventDefault();
+    var f=e.target;
+    var nombre=f.nombre.value.trim();
+    var recibo=f.recibo.value.trim();
+    var msg='Hola Tlaloc, soy '+nombre+'. '+(recibo?('Mi recibo de luz es de aproximadamente $'+recibo+'. '):'')+'Quiero mi cotización de paneles solares.';
+    var url='https://wa.me/526566953960?text='+encodeURIComponent(msg);
+    f.style.display='none';
+    document.getElementById('okMsg').style.display='block';
+    window.open(url,'_blank');
+    return false;
+  }
+</script>
+</body>
+</html>
