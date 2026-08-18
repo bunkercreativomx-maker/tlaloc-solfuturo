@@ -759,11 +759,10 @@
         </div>
         <div class="cta-form-card reveal reveal-delay-2">
           <h4><i class="fas fa-file-invoice"></i> Solicitar cotización</h4>
-          <form id="leadForm" action="https://formsubmit.co/soporte@solfuturo.com.mx" method="POST" enctype="multipart/form-data">
+          <form id="leadForm" action="https://formsubmit.co/soporte@solfuturo.com.mx" method="POST" enctype="multipart/form-data" target="formsubmit-frame">
             <input type="hidden" name="_subject" value="Nueva cotización desde web Tlaloc SolFuturo">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="https://bunkercreativomx-maker.github.io/tlaloc-solfuturo/?sent=ok">
             <div class="form-group">
               <label><i class="fas fa-user"></i> Nombre completo</label>
               <input type="text" id="leadNombre" name="Nombre" placeholder="Ej: Juan Pérez" required>
@@ -788,6 +787,7 @@
             <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Solicitar cotización gratuita</button>
           </form>
           <div class="success-msg" id="leadSuccess"><i class="fas fa-check-circle"></i> ¡Cotización enviada! Te contacto en breve.</div>
+          <iframe name="formsubmit-frame" id="formsubmit-frame" style="display:none" aria-hidden="true" tabindex="-1"></iframe>
         </div>
       </div>
     </div>
@@ -918,17 +918,27 @@
       resultado.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Confirmación tras envío del formulario (?sent=ok)
+    // Envío del formulario sin salir de la página (iframe oculto)
     (function () {
-      if (new URLSearchParams(window.location.search).get('sent') === 'ok') {
-        const success = document.getElementById('leadSuccess');
-        const form = document.getElementById('leadForm');
-        if (success && form) {
-          form.style.display = 'none';
-          success.style.display = 'block';
-          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const form = document.getElementById('leadForm');
+      const frame = document.getElementById('formsubmit-frame');
+      const success = document.getElementById('leadSuccess');
+      if (!form || !frame || !success) return;
+      let submitted = false;
+      form.addEventListener('submit', () => {
+        submitted = true;
+        const btn = form.querySelector('button[type="submit"]');
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
         }
-      }
+      });
+      frame.addEventListener('load', () => {
+        if (!submitted) return;
+        form.style.display = 'none';
+        success.style.display = 'block';
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
     })();
   </script>
 </body>
