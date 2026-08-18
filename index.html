@@ -226,6 +226,10 @@
     .cta-form-card .form-group input,.cta-form-card .form-group textarea{background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.1);color:white}
     .cta-form-card .form-group input::placeholder,.cta-form-card .form-group textarea::placeholder{color:rgba(255,255,255,0.3)}
     .cta-form-card .form-group input:focus,.cta-form-card .form-group textarea:focus{border-color:var(--primary);background:rgba(255,255,255,0.08)}
+    .cta-form-card input[type="file"]{background:rgba(255,255,255,0.06);border:1.5px dashed rgba(255,255,255,0.25);border-radius:10px;color:rgba(255,255,255,0.7);padding:10px 14px;width:100%;font-size:14px;cursor:pointer}
+    .cta-form-card input[type="file"]::file-selector-button{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:9px 14px;margin-right:12px;font-weight:600;cursor:pointer}
+    .cta-form-card input[type="file"]:hover{border-color:var(--primary)}
+    .cta-form-card .file-hint{font-size:12px;color:rgba(255,255,255,0.45);margin-top:6px}
     .cta-form-card .form-group textarea{width:100%;padding:14px 18px;border-radius:10px;font-size:15px;font-family:inherit;resize:vertical;min-height:80px;outline:none}
     .cta-form-card .btn-primary{width:100%;justify-content:center;padding:16px;font-size:17px;margin-top:6px}
     .success-msg{display:none;margin-top:16px;padding:16px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.2);border-radius:10px;color:#6EE7B7;text-align:center;font-weight:500}
@@ -755,22 +759,31 @@
         </div>
         <div class="cta-form-card reveal reveal-delay-2">
           <h4><i class="fas fa-file-invoice"></i> Solicitar cotización</h4>
-          <form id="leadForm" onsubmit="return handleLeadForm(event)">
+          <form id="leadForm" action="https://formsubmit.co/soporte@solfuturo.com.mx" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_subject" value="Nueva cotización desde web Tlaloc SolFuturo">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://bunkercreativomx-maker.github.io/tlaloc-solfuturo/?sent=ok">
             <div class="form-group">
               <label><i class="fas fa-user"></i> Nombre completo</label>
-              <input type="text" id="leadNombre" placeholder="Ej: Juan Pérez" required>
+              <input type="text" id="leadNombre" name="Nombre" placeholder="Ej: Juan Pérez" required>
             </div>
             <div class="form-group">
               <label><i class="fas fa-envelope"></i> Correo electrónico</label>
-              <input type="email" id="leadEmail" placeholder="correo@ejemplo.com" required>
+              <input type="email" id="leadEmail" name="Email" placeholder="correo@ejemplo.com" required>
             </div>
             <div class="form-group">
               <label><i class="fab fa-whatsapp"></i> WhatsApp</label>
-              <input type="tel" id="leadWhatsapp" placeholder="656 123 4567">
+              <input type="tel" id="leadWhatsapp" name="WhatsApp" placeholder="656 123 4567">
             </div>
             <div class="form-group">
               <label><i class="fas fa-file-upload"></i> Mensaje o monto de tu recibo <span class="optional">(Opcional)</span></label>
-              <textarea id="leadMensaje" placeholder="Cuéntame sobre tu proyecto o comparte el monto de tu recibo CFE..."></textarea>
+              <textarea id="leadMensaje" name="Mensaje" placeholder="Cuéntame sobre tu proyecto o comparte el monto de tu recibo CFE..."></textarea>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-camera"></i> Foto de tu recibo <span class="optional">(Opcional)</span></label>
+              <input type="file" id="leadRecibo" name="attachment" accept="image/*,.pdf">
+              <p class="file-hint"><i class="fas fa-info-circle"></i> Sube una foto de tu recibo CFE o tómala con tu cámara (JPG, PNG o PDF).</p>
             </div>
             <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Solicitar cotización gratuita</button>
           </form>
@@ -904,40 +917,18 @@
       resultado.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Lead form — envía a Soporte@solfuturo.com.mx vía FormSubmit
-    function handleLeadForm(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('button[type="submit"]');
-      const success = document.getElementById('leadSuccess');
-      const data = {
-        Nombre: document.getElementById('leadNombre').value,
-        Email: document.getElementById('leadEmail').value,
-        WhatsApp: document.getElementById('leadWhatsapp').value,
-        Mensaje: document.getElementById('leadMensaje').value,
-        _subject: 'Nueva cotización desde web Tlaloc SolFuturo',
-        _template: 'table',
-        _captcha: 'false'
-      };
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-      fetch('https://formsubmit.co/ajax/soporte@solfuturo.com.mx', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(data)
-      })
-        .then(res => res.json())
-        .then(res => {
-          btn.style.display = 'none';
+    // Confirmación tras envío del formulario (?sent=ok)
+    (function () {
+      if (new URLSearchParams(window.location.search).get('sent') === 'ok') {
+        const success = document.getElementById('leadSuccess');
+        const form = document.getElementById('leadForm');
+        if (success && form) {
+          form.style.display = 'none';
           success.style.display = 'block';
-          e.target.reset();
-        })
-        .catch(() => {
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-paper-plane"></i> Solicitar cotización gratuita';
-          alert('Hubo un error al enviar. Inténtalo de nuevo o escríbenos por WhatsApp.');
-        });
-      return false;
-    }
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    })();
   </script>
 </body>
 </html>
