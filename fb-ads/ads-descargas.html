@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolFuturo — Anuncios Facebook (8 creativos)</title>
+<style>
+  :root{--bg:#0f172a;--card:#1e293b;--accent:#f59e0b;--text:#e2e8f0;--muted:#94a3b8;--border:#334155}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding:24px 16px 60px}
+  .wrap{max-width:1080px;margin:0 auto}
+  header{text-align:center;margin-bottom:28px}
+  header h1{font-size:1.6rem;color:#fff;margin-bottom:6px}
+  header p{color:var(--muted);font-size:.95rem}
+  .download-bar{text-align:center;margin:20px 0 30px}
+  #zipBtn{background:var(--accent);color:#0f172a;font-weight:700;font-size:1.05rem;padding:14px 28px;border:none;border-radius:10px;cursor:pointer}
+  #zipBtn:disabled{opacity:.6;cursor:not-allowed}
+  #zipStatus{margin-top:10px;color:var(--muted);font-size:.9rem;min-height:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+  .card img{width:100%;height:auto;display:block}
+  .card-body{padding:12px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .card-name{font-size:.85rem;font-weight:600;color:#fff;word-break:break-all}
+  .card-angle{font-size:.8rem;color:var(--muted)}
+  .card a{display:block;text-align:center;background:#334155;color:#fff;text-decoration:none;padding:8px;border-radius:8px;font-size:.85rem;font-weight:600;margin-top:auto}
+  .card a:hover{background:#475569}
+  .copy-link{color:var(--accent);font-size:.8rem;text-decoration:none;margin-top:4px}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:34px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>☀️ SolFuturo · 8 Anuncios Facebook</h1>
+    <p>Dueños de casa en Cd. Juárez · tel. 656 695 3960 · Presupuesto $250 MXN/sem</p>
+    <p style="margin-top:6px">Descarga el ZIP y pega los copys desde <code>COPY-ANUNCIOS.md</code></p>
+  </header>
+
+  <div class="download-bar">
+    <button id="zipBtn" onclick="downloadAll()">⬇️ Descargar los 8 creativos (ZIP)</button>
+    <div id="zipStatus"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>SolFuturo — Hechos en Cd. Juárez desde 2015 · cotiza en tlalocsolfuturo.com</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const IMG_BASE = "creativos/";
+const ADS = [
+  {file:"01_meta01_cfe_sube.png",       name:"01_META-01_cfe-sube.png",       angle:"CFE sube cada año"},
+  {file:"02_meta02_verano45.png",       name:"02_META-02_verano-45.png",      angle:"Verano a 45°C"},
+  {file:"03_meta03_tarifa_dac.png",     name:"03_META-03_tarifa-dac.png",     angle:"Sal de tarifa DAC"},
+  {file:"04_meta04_ahorro95.png",       name:"04_META-04_ahorro-95.png",      angle:"Ahorro hasta 95%"},
+  {file:"05_meta05_financiamiento.png", name:"05_META-05_financiamiento.png", angle:"Financiamiento sin intereses"},
+  {file:"06_meta06_prueba_social.png",  name:"06_META-06_prueba-social.png",  angle:"+500 instalaciones locales"},
+  {file:"07_meta07_fiscal.png",         name:"07_META-07_deduccion-fiscal.png",angle:"Deducción 100% (comercial)"},
+  {file:"08_meta08_garantia.png",       name:"08_META-08_garantia.png",       angle:"Garantía 25 años"},
+];
+
+function render(){
+  const grid = document.getElementById('grid');
+  ADS.forEach(a=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      '<img src="'+IMG_BASE+a.file+'" alt="'+a.angle+'" loading="lazy">' +
+      '<div class="card-body">' +
+        '<div class="card-name">'+a.name+'</div>' +
+        '<div class="card-angle">'+a.angle+'</div>' +
+        '<a href="'+IMG_BASE+a.file+'" download="'+a.name+'">⬇️ Descargar imagen</a>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+async function downloadAll(){
+  const btn = document.getElementById('zipBtn');
+  const st = document.getElementById('zipStatus');
+  btn.disabled = true;
+  st.textContent = 'Empacando ZIP…';
+  try{
+    const zip = new JSZip();
+    for(const a of ADS){
+      const resp = await fetch(IMG_BASE + a.file);
+      if(!resp.ok) throw new Error('No se pudo leer '+a.file);
+      zip.file(a.name, await resp.blob());
+    }
+    const content = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(content);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'solfuturo_facebook_ads.zip';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    st.textContent = '✅ ZIP descargado.';
+  }catch(e){
+    st.textContent = '❌ Error: '+e.message;
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+render();
+</script>
+</body>
+</html>
