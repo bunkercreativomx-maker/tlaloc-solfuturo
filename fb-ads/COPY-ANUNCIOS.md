@@ -72,18 +72,18 @@ Con un sistema SolFuturo generas tu propia electricidad y reduces hasta 95% tu r
 
 ---
 
-## META-05 — Financiamiento sin intereses
+## META-05 — Financiamiento
 **Imagen:** `05_meta05_financiamiento.png`
 
 **Texto principal:**
-¿Crees que el solar es caro? Con financiamiento SIN intereses, tu cuota mensual suele ser MENOR de lo que hoy pagas de luz 💰.
+¿Crees que el solar es caro? Con financiamiento, tu cuota mensual suele ser MENOR de lo que hoy pagas de luz 💰.
 
 Es decir: dejas de regalar tu dinero a CFE y lo conviertes en una inversión que se queda en tu propiedad.
 
 📲 Te explicamos las opciones sin compromiso: 656 695 3960 o WhatsApp.
 
 **Título:** Tu cuota menor a lo que pagas de luz hoy
-**Descripción:** Financiamiento sin intereses disponible.
+**Descripción:** Financiamiento disponible.
 **CTA:** Enviar mensaje · Enviar mensaje de WhatsApp
 
 ---
@@ -124,7 +124,7 @@ Reduce el gasto fijo más pesado y conviértelo en ventaja competitiva con una e
 **Imagen:** `08_meta08_garantia.png`
 
 **Texto principal:**
-Paneles Tier 1 con garantía de hasta 25 años, instalación con garantía de por vida y monitoreo 24/7 🔒.
+Paneles Tier 1 con garantía de hasta 25 años y monitoreo 24/7 🔒.
 
 En SolFuturo no solo te instalamos: te acompañamos desde el análisis de tu recibo hasta que CFE valida tu medidor bidireccional. Soporte local continuo, aquí en Juárez.
 
