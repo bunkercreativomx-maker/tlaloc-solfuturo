@@ -973,6 +973,19 @@
         });
       });
     })();
+
+    // Evento Contact en clics de llamada telefónica
+    (function () {
+      const telLinks = document.querySelectorAll('a[href^="tel:"]');
+      if (!telLinks.length) return;
+      telLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (typeof fbq === 'function') {
+            fbq('track', 'Contact');
+          }
+        });
+      });
+    })();
   </script>
 </body>
 </html>
