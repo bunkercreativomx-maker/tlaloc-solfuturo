@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/blog", "destination": "https://blog.bunkerank.com/s/ckyaxb7yohx5bvc/blog" },
+    { "source": "/blog/:path*", "destination": "https://blog.bunkerank.com/s/ckyaxb7yohx5bvc/blog/:path*" }
+  ]
+}
