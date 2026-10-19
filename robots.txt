@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /fb-ads/
+Disallow: /fb-calendario/
+
+Sitemap: https://www.tlalocsolfuturo.com/sitemap.xml

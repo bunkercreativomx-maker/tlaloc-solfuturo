@@ -2,5 +2,8 @@
   "rewrites": [
     { "source": "/blog", "destination": "https://blog.bunkerank.com/s/ckyaxb7yohx5bvc/blog" },
     { "source": "/blog/:path*", "destination": "https://blog.bunkerank.com/s/ckyaxb7yohx5bvc/blog/:path*" }
+  ],
+  "headers": [
+    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
   ]
 }
