@@ -325,7 +325,9 @@
 
     /* ===== CONVERSION LAYER ===== */
     .hero .container{align-items:start}
+    @media(min-width:769px){.hero{padding:52px 0 64px}}
     .hero h1 span{white-space:nowrap}
+    .hero h1,.section-title{text-wrap:balance}
     .btn-wa{display:inline-flex;align-items:center;gap:10px;background:#16A34A;color:#fff;padding:14px 26px;border-radius:10px;font-weight:700;font-size:16px;box-shadow:0 8px 24px rgba(22,163,74,.28);transition:transform .2s,box-shadow .2s}
     .btn-wa:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(22,163,74,.35);color:#fff}
     .btn-wa i{font-size:20px}
@@ -370,16 +372,28 @@
       .hero p{font-size:16px;line-height:1.65;margin-bottom:20px}
       .hero-stats{display:none}
       .hero-trust{text-align:left;max-width:360px;margin:20px auto 0;font-size:14px}
-      .hero-cta a{flex:1;justify-content:center;min-width:150px;padding:14px 16px}
+      .hero-cta{flex-direction:column;gap:10px}
+      .hero-cta a{width:100%;justify-content:center;padding:14px 16px}
+      .top-bar{display:none}
       .hero-form{padding:22px}
       .res-grid{grid-template-columns:1fr}
       .whatsapp-float{display:none}
       .mobile-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:120;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);box-shadow:0 -6px 24px rgba(0,0,0,.12)}
-      .mobile-bar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 8px;border-radius:10px;font-weight:700;font-size:15px}
+      .mobile-bar a{flex:1;min-width:0;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 8px;border-radius:10px;font-weight:700;font-size:15px}
       .mobile-bar .mb-call{border:2px solid #94A3B8;color:var(--text)}
       .mobile-bar .mb-quote{background:var(--primary);color:#fff}
       .mobile-bar .mb-wa{background:#16A34A;color:#fff}
       body{padding-bottom:76px}
+    }
+    .about-grid>div{min-width:0}
+    @media(max-width:480px){
+      .about-stats{gap:8px}
+      .about-stat{padding:12px 6px}
+      .about-stat strong{font-size:24px}
+      .about-stat span{font-size:10.5px;letter-spacing:0}
+      .btn-white{white-space:normal;text-align:center;justify-content:center}
+      .mobile-bar{gap:6px;padding-left:8px;padding-right:8px}
+      .mobile-bar a{font-size:14px;gap:6px;padding:13px 4px}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
   </style>
@@ -463,7 +477,7 @@
         </div>
       </div>
       <div class="hero-form" id="cotizar">
-        <h2 class="hero-form-title">Tu cotización gratis en 24 h</h2>
+        <h2 class="hero-form-title">Tu cotización gratis en 24&nbsp;h</h2>
         <p class="hero-form-sub">Déjanos tus datos y te contactamos por WhatsApp.</p>
         <form class="lead-form" data-origen="hero" novalidate>
           <div class="form-group">
