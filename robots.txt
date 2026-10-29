@@ -4,3 +4,4 @@ Disallow: /fb-ads/
 Disallow: /fb-calendario/
 
 Sitemap: https://www.tlalocsolfuturo.com/sitemap.xml
+Sitemap: https://www.tlalocsolfuturo.com/blog/sitemap.xml
