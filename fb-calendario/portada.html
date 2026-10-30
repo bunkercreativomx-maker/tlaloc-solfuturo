@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolFuturo · Calendario 30 días Facebook</title>
+<style>
+  :root{--bg:#0f172a;--card:#1e293b;--accent:#8cc63f;--blue:#0099ff;--text:#e2e8f0;--muted:#94a3b8;--border:#334155}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding:24px 16px 60px}
+  .wrap{max-width:1240px;margin:0 auto}
+  header{text-align:center;margin-bottom:22px}
+  header h1{font-size:1.7rem;color:#fff;margin-bottom:6px}
+  header p{color:var(--muted);font-size:.95rem}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0}
+  .filters button{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:20px;padding:7px 14px;cursor:pointer;font-size:.85rem}
+  .filters button.active{background:var(--accent);color:#0f172a;border-color:var(--accent);font-weight:700}
+  .download-bar{text-align:center;margin:14px 0 26px}
+  #zipBtn{background:var(--accent);color:#0f172a;font-weight:700;font-size:1.05rem;padding:14px 30px;border:none;border-radius:10px;cursor:pointer}
+  #zipBtn:disabled{opacity:.6;cursor:not-allowed}
+  #zipStatus{margin-top:10px;color:var(--muted);font-size:.9rem;min-height:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .card img{width:100%;height:auto;display:block}
+  .card-body{padding:14px;display:flex;flex-direction:column;gap:9px;flex:1}
+  .card-tag{font-size:.78rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+  .card-title{font-size:1rem;font-weight:700;color:#fff;line-height:1.3}
+  .card-copy{font-size:.85rem;color:var(--text);line-height:1.5;white-space:pre-wrap;background:#0b1120;border:1px solid var(--border);border-radius:8px;padding:10px}
+  .card-actions{display:flex;gap:8px;margin-top:auto}
+  .card-actions button,.card-actions a{flex:1;text-align:center;background:#334155;color:#fff;text-decoration:none;padding:9px;border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer}
+  .card-actions a:hover,.card-actions button:hover{background:#475569}
+  .card-actions .copy{background:var(--blue);color:#fff}
+  .card-actions .copy:hover{background:#0a84d8}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:34px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>☀️ SolFuturo · Calendario 30 días Facebook</h1>
+    <p>Comercios medianos + residencias · Cd. Juárez · tel. 656 695 3960 · WhatsApp wa.me/526566953960</p>
+    <p style="margin-top:4px">Cada tarjeta trae la imagen y el copy listo para pegar.</p>
+  </header>
+
+  <div class="filters" id="filters">
+    <button data-f="all" class="active">Todos</button>
+    <button data-f="residencial">🏠 Residencial</button>
+    <button data-f="comercial">🏪 Comercial</button>
+    <button data-f="ambos">🔄 Ambos</button>
+  </div>
+
+  <div class="download-bar">
+    <button id="zipBtn" onclick="downloadAll()">⬇️ Descargar las 30 imágenes (ZIP)</button>
+    <div id="zipStatus"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>SolFuturo — Hechos en Cd. Juárez desde 2015 · +500 instalaciones · cotiza en tlalocsolfuturo.com</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const IMG_BASE = "creativos/";
+const DAYS = [
+{d:1,aud:"residencial",pil:"Educación",title:"CFE sube cada año",copy:"El recibo que pagaste en 2020 hoy te cuesta casi el doble. Y la CFE no va a dejar de subir: cada año va en aumento, nos guste o no. 📈\n\nMientras tanto, el sol sale gratis todos los días en Juárez. Con paneles SolFuturo reduces hasta 95% tu recibo desde el primer bimestre y te blindas contra los aumentos.\n\n📲 Cotiza gratis con tu recibo por WhatsApp: 656 695 3960."},
+{d:2,aud:"ambos",pil:"Engagement",title:"¿Cuánto pagas de luz al bimestre?",copy:"Pregunta rápida 💡 ¿Cuánto te llega de luz al bimestre?\n👍 Menos de $1,500\n❤️ Entre $1,500 y $3,000\n😮 Más de $3,000\n🔥 Ya estoy en tarifa DAC\n\nCuéntanos en comentarios — si pagas más de $3,000, un sistema solar puede cambiar tu bimestre."},
+{d:3,aud:"comercial",pil:"Servicios",title:"Negocios: reduce tu gasto fijo",copy:"Dueño de negocio en Juárez 📊: la luz es uno de tus gastos fijos más pesados, y no puedes apagarla.\n\nCon un sistema solar SolFuturo conviertes ese gasto en una ventaja competitiva: generas tu propia energía, reduces tu recibo y deduces el 100% de la inversión en el primer año fiscal.\n\nSin tocar tu capital de trabajo — con financiamiento, tu cuota puede ser menor a lo que hoy pagas de luz.\n📞 Cotiza tu sistema comercial: 656 695 3960."},
+{d:4,aud:"residencial",pil:"Educación",title:"Tarifa DAC = recibo ×3",copy:"⚠️ ¿Sabes qué es la tarifa DAC? Es cuando CFE te quita el subsidio por superar cierto consumo… y tu recibo se triplica, bimestre tras bimestre.\n\nNo es tu culpa, pero sí tiene salida: generar tu propia energía. Con SolFuturo bajas tu consumo de CFE y recuperas el control de tu recibo.\n\n📲 Envíanos tu recibo por WhatsApp y te decimos cuánto ahorrarías: 656 695 3960."},
+{d:5,aud:"residencial",pil:"Conversión",title:"Solar sin pagar de contado",copy:"¿Creías que poner paneles solares era caro? 💰 Con financiamiento sin intereses, no pagas de contado: tu cuota mensual suele ser menor de lo que hoy pagas de luz.\n\nEs decir, dejas de mandarle tu dinero a CFE y lo conviertes en una inversión que se queda en tu casa.\n\n📲 Te explicamos las opciones sin compromiso: 656 695 3960 o WhatsApp."},
+{d:6,aud:"ambos",pil:"Confianza",title:"+500 instalaciones, 10 años",copy:"+500 instalaciones activas y más de 10 años en Ciudad Juárez 🏠.\n\nSomos una empresa juarense fundada por ingenieros locales. Si nos llamas, te contesta alguien de Juárez — trato de vecino, no de call center.\n\nInstalamos en tu colonia, conocemos tu consumo y te damos soporte local continuo.\n📞 Habla con un experto real: 656 695 3960."},
+{d:7,aud:"comercial",pil:"Educación",title:"Mito: el solar es para casas",copy:"\"Los paneles solares son para casas, no para mi negocio.\" ❌ Mito.\n\nUn comercio consume de día — que es justo cuando el sol está generando. Restaurantes, tiendas, panaderías y bodegas son de los que mejor aprovechan el sistema, con ahorros de miles de pesos al mes.\n\nSi tu negocio enciende equipos todo el día, el solar te conviene más que a nadie.\n📞 Cotiza sin compromiso: 656 695 3960."},
+{d:8,aud:"ambos",pil:"Engagement",title:"¿Qué harías con ese ahorro?",copy:"Piensa en lo que pagas de luz cada bimestre. 💭 Ahora imagina que entre el 80% y 95% de ese dinero se queda en tu bolsillo.\n\n¿Qué harías con ese ahorro? ¿Reinvertirlo en tu negocio? ¿Un viaje? ¿Colchón para la familia?\n\nComenta abajo 👇 y descubre cuánto podrías ahorrar con tu recibo."},
+{d:9,aud:"residencial",pil:"Servicios",title:"Sistemas a tu medida",copy:"No hay dos casas iguales, así que no instalamos sistemas \"de catálogo\" 🏠.\n\nRevisamos tu recibo de CFE, el espacio de tu techo y la luz que recibe, y diseñamos un sistema a tu medida — ni de más, ni de menos. Financiamiento sin intereses y garantía de por vida en la instalación.\n\n📲 Mándanos tu recibo y te damos tu plan en menos de 24 hrs: 656 695 3960."},
+{d:10,aud:"ambos",pil:"Educación",title:"¿Cuántos paneles necesito?",copy:"¿Cuántos paneles solares necesito? 🤔\n\nDepende de 3 cosas: cuánto consumes (tu recibo), cuánto espacio tienes y cuánto sol llega a tu techo. No es magia: es cálculo.\n\nEn SolFuturo analizamos tu recibo y te decimos exactamente cuántos paneles y cuánto te ahorrarías, gratis y sin compromiso.\n📲 WhatsApp: 656 695 3960."},
+{d:11,aud:"comercial",pil:"Conversión",title:"Solar para tu negocio sin tocar capital",copy:"Negocio propio, pero apretado de flujo 💸 Con paneles SolFuturo no necesitas tocar tu capital de trabajo.\n\nFinanciamiento sin intereses + deducción del 100% en el primer año fiscal: tu cuota puede ser menor a lo que pagas de luz hoy, y el resto es ahorro que se va directo a tu operación.\n\nReduce tu gasto fijo más pesado sin descapitalizarte.\n📞 Cotiza tu sistema comercial: 656 695 3960."},
+{d:12,aud:"residencial",pil:"Educación",title:"Verano: 45°C y aire acondicionado",copy:"En Juárez llegamos a 45°C ☀️🥵 y el aire acondicionado de junio a septiembre te cuesta lo que gastas el resto del año.\n\nImagina prender el clima todo el día sin miedo a que llegue el recibo. Con solar generas tu propia energía y pagas hasta 95% menos.\n\n📞 Cotiza gratis: 656 695 3960."},
+{d:13,aud:"residencial",pil:"Confianza",title:"Caso real: Col. Campestre",copy:"Resultado real en Col. Campestre, Juárez 🏡 Ahorro de $1,800 al mes en su recibo de luz.\n\nNo es una estimación: es una instalación terminada y funcionando. Cada proyecto es único, y el tuyo empieza igual — con un análisis de tu recibo.\n\n📲 Descubre cuánto ahorrarías: 656 695 3960."},
+{d:14,aud:"ambos",pil:"Engagement",title:"Trivia: ¿qué es la tarifa DAC?",copy:"Trivia ⚡ ¿Quién sabe qué es la tarifa DAC?\nA) Un descuento de verano\nB) La tarifa con la que tu recibo se triplica al perder el subsidio\nC) Una marca de aires acondicionados\n\nResponde en comentarios 👇 (la respuesta puede estar costándote dinero)."},
+{d:15,aud:"comercial",pil:"Servicios",title:"Restaurante: $5,300 de ahorro",copy:"Un restaurante en Juárez con cámaras, estufas y climas encendidos todo el día está ahorrando $5,300 al mes con su sistema SolFuturo 🍽️.\n\nPara negocios de alto consumo, el solar no es un lujo: es la forma más directa de bajar costos operativos.\n\n📞 Aplica tu cotización comercial: 656 695 3960."},
+{d:16,aud:"ambos",pil:"Educación",title:"Radiación solar de Juárez",copy:"Juárez recibe +8.5 kWh/m² de radiación solar al día 🌞 — de los índices más altos del país.\n\nEn otras palabras: aquí el sol no falta. Solo falta quien lo aproveche. Y esa es exactamente nuestra especialidad desde 2015.\n\n📲 Cotiza con tu recibo: 656 695 3960."},
+{d:17,aud:"residencial",pil:"Lifestyle",title:"Paneles = más valor a tu casa",copy:"Los paneles solares no solo bajan tu recibo: también suben el valor de tu casa 🏡.\n\nLas propiedades con solar se venden hasta 20% más rápido y a mejor precio. Es una mejora que se paga sola y le gana a la inflación de CFE.\n\n📞 Descubre tu cotización: 656 695 3960."},
+{d:18,aud:"ambos",pil:"Confianza",title:"El proceso en 4 pasos",copy:"Instalar solar suena complicado, pero es más simple de lo que crees ✅\n\n1️⃣ Analizamos tu recibo de CFE\n2️⃣ Diseñamos tu sistema\n3️⃣ Instalamos (certificados, aguantamos los vientos de Juárez)\n4️⃣ Gestionamos tu medidor bidireccional con CFE\n\nTú solo compartes tu recibo; nosotros hacemos el resto.\n📲 Empieza hoy: 656 695 3960."},
+{d:19,aud:"comercial",pil:"Educación",title:"Deducción fiscal explicada",copy:"Dueño de negocio 📊 ¿Sabías que puedes deducir el 100% de tu inversión solar en el primer año fiscal?\n\nCombinado con el ahorro en tu recibo y el financiamiento sin intereses, el ROI de un sistema comercial es de los más limpios que existen para una empresa.\n\n📞 Habla con un asesor y mira tus números: 656 695 3960."},
+{d:20,aud:"ambos",pil:"Engagement",title:"Conoce a alguien que pague mucho",copy:"¿Conoces a alguien en Juárez que pague un recibo de luz altísimo? 🔥 Compártele este post.\n\nTal vez sea un familiar, un vecino o un colega con negocio. Un mensaje tuyo puede ahorrarle miles de pesos al año.\n\nEtiquétalos abajo 👇 y hagámosles la cotización gratis."},
+{d:21,aud:"ambos",pil:"Conversión",title:"Cotiza con tu recibo en 24 hrs",copy:"¿Quieres saber cuánto ahorrarías con paneles solares? ☀️ No tienes que adivinar.\n\nEnvíanos tu recibo de CFE y en menos de 24 horas te mandamos una cotización personalizada, con tu ahorro estimado y opciones de financiamiento. Gratis y sin compromiso.\n\n📲 WhatsApp: 656 695 3960 · o directo en tlalocsolfuturo.com"},
+{d:22,aud:"residencial",pil:"Educación",title:"Mito: si no hay sol, no hay luz",copy:"\"¿Y si está nublado? ¿Me quedo sin luz?\" 🤔 Mito.\n\nUn sistema conectado a la red funciona con el medidor bidireccional: cuando generas de más, se va a CFE; cuando generas de menos (o de noche), la red te respalda. Nunca te quedas a oscuras.\n\n📲 Te lo explicamos con calma: 656 695 3960."},
+{d:23,aud:"residencial",pil:"Servicios",title:"Mantenimiento de paneles",copy:"¿Ya tienes paneles pero no les das mantenimiento? 🌧️ El polvo y el clima de Juárez reducen su eficiencia.\n\nSolFuturo no solo instala: revisamos electricidad, limpiamos, ajustamos cableado y dejamos tu sistema generando al máximo. Mantenimiento preventivo para que tu ahorro no baje.\n\n📞 Agenda tu revisión: 656 695 3960."},
+{d:24,aud:"ambos",pil:"Confianza",title:"Equipo local, no call center",copy:"Detrás de SolFuturo hay ingenieros y consultores de Cd. Juárez 👷 fundaron la empresa aquí en 2015.\n\nConocemos la frontera, el clima y el consumo típico de acá. Si nos llamas, te contesta alguien de Juárez — sin call centers ni fórmulas genéricas.\n\n📞 Habla con un experto real: 656 695 3960."},
+{d:25,aud:"comercial",pil:"Conversión",title:"El ahorro que se reinvierte",copy:"Cada bimestre que pasa sin solar, tu negocio le regala a CFE dinero que podrías reinvertir 📈.\n\nEse ahorro — hasta cientos de miles al año en un comercio mediano — es nómina, inventario o expansión. Y con financiamiento sin tocar tu capital, el sistema se va pagando solo.\n\n📞 Cotiza tu sistema comercial: 656 695 3960."},
+{d:26,aud:"ambos",pil:"Educación",title:"Paneles Tier 1 · 25 años",copy:"No todos los paneles son iguales 🔋 En SolFuturo usamos paneles Tier 1 con garantía de hasta 25 años, instalación con garantía de por vida y monitoreo 24/7.\n\nEs una inversión que te acompaña décadas, no un gasto que caduca en un par de años.\n\n📲 Cotiza con tu recibo: 656 695 3960."},
+{d:27,aud:"ambos",pil:"Lifestyle",title:"Energía limpia",copy:"Tu sistema solar también es tu granito de arena 🌍 Un sistema residencial evita toneladas de CO₂ al año.\n\nReduces tu recibo, aumentas el valor de tu propiedad y cuidas el planeta. Tres cosas a la vez, con una sola instalación.\n\n📞 Infórmate: 656 695 3960."},
+{d:28,aud:"comercial",pil:"Confianza",title:"De casas a maquiladoras de 2 MW",copy:"De casas en Zona Dorada ($6,500/mes de ahorro) a plantas en Parque Industrial ($18,000/mes) 🏭 Instalamos desde sistemas residenciales hasta maquiladoras de 2 MW.\n\nTu proyecto, grande o chico, empieza igual: con tu recibo y una llamada.\n📞 656 695 3960."},
+{d:29,aud:"ambos",pil:"Engagement",title:"¿Cuál es tu mayor duda?",copy:"Cierre de mes 💬 ¿Cuál es tu mayor duda sobre paneles solares? Precio, financiamiento, instalación, lo que sea.\n\nDéjanos tu pregunta en comentarios y la respondemos directo, aquí, sin rodeos. 👇"},
+{d:30,aud:"ambos",pil:"Conversión",title:"El sol no falta en Juárez",copy:"En resumen ☀️: en Juárez el sol sobra, y con SolFuturo puedes reducir hasta 95% tu recibo sin pagar de contado.\n\nFinanciamiento sin intereses · deducción del 100% para negocios · +500 instalaciones · soporte local. Todo empieza con tu recibo.\n\n📲 Cotiza gratis hoy: 656 695 3960 · tlalocsolfuturo.com"}
+];
+
+const slug = t => t.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+let currentFilter = 'all';
+
+function render(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  DAYS.filter(x => currentFilter==='all' || x.aud===currentFilter).forEach(x=>{
+    const fn = 'day'+String(x.d).padStart(2,'0')+'.png';
+    const dl = String(x.d).padStart(2,'0')+'_DIA-'+String(x.d).padStart(2,'0')+'_'+slug(x.title)+'.png';
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      '<img src="'+IMG_BASE+fn+'" alt="Día '+x.d+'" loading="lazy">' +
+      '<div class="card-body">' +
+        '<div class="card-tag">Día '+x.d+' · '+x.pil+' · '+({residencial:'🏠',comercial:'🏪',ambos:'🔄'})[x.aud]+'</div>' +
+        '<div class="card-title">'+x.title+'</div>' +
+        '<div class="card-copy">'+x.copy.replace(/\n/g,'<br>')+'</div>' +
+        '<div class="card-actions">' +
+          '<button class="copy" data-copy="'+x.d+'">📋 Copiar copy</button>' +
+          '<a href="'+IMG_BASE+fn+'" download="'+dl+'">⬇️ Imagen</a>' +
+        '</div>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('button.copy').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const d = DAYS.find(y=>y.d==b.dataset.copy);
+      navigator.clipboard.writeText(d.copy).then(()=>{
+        b.textContent='✅ Copiado'; setTimeout(()=>b.textContent='📋 Copiar copy',1600);
+      });
+    });
+  });
+}
+
+document.getElementById('filters').addEventListener('click', e=>{
+  if(e.target.tagName!=='BUTTON') return;
+  currentFilter = e.target.dataset.f;
+  document.querySelectorAll('#filters button').forEach(b=>b.classList.toggle('active', b===e.target));
+  render();
+});
+
+async function downloadAll(){
+  const btn = document.getElementById('zipBtn');
+  const st = document.getElementById('zipStatus');
+  btn.disabled = true;
+  st.textContent = 'Empacando ZIP (30 imágenes)…';
+  try{
+    const zip = new JSZip();
+    for(const x of DAYS){
+      const fn = 'day'+String(x.d).padStart(2,'0')+'.png';
+      const dl = String(x.d).padStart(2,'0')+'_DIA-'+String(x.d).padStart(2,'0')+'_'+slug(x.title)+'.png';
+      const resp = await fetch(IMG_BASE + fn);
+      if(!resp.ok) throw new Error('No se pudo leer '+fn);
+      zip.file(dl, await resp.blob());
+    }
+    const content = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(content);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'solfuturo_calendario_30_dias.zip';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    st.textContent = '✅ ZIP descargado.';
+  }catch(e){
+    st.textContent = '❌ Error: '+e.message;
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+render();
+</script>
+</body>
+</html>
